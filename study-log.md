@@ -1,7 +1,22 @@
 # Python Learning Journey
 
 Career changer rebuilding fundamentals and working toward a junior developer role.
-Started May 2026.
+
+## Started May 2026
+
+## 2026-05-23 — Exercism: Leap, Triangle, Grains And some codewars Katas
+
+- **Time:** 4h
+- **What I did:** Three practice exercises — Leap (year-checking logic), Triangle (classify as equilateral/isosceles/scalene with a validity check), and Grains (compute grains on a chessboard square + total).
+- **What clicked:**
+  - **Tuple unpacking works on lists too** — `a, b, c = [1, 2, 3]` is valid. Missed this from the Basics material and it would have saved me time on Triangle if I'd known it earlier.
+  - **Parentheses when mixing `and` and `or`** — `and` binds tighter than `or` in Python, same as `*` binds tighter than `+` in math. Without parens, `is_triangle(sides) and a == c or a == b or b == c` gets read as `(is_triangle AND first pair) OR second pair OR third pair`, meaning is_triangle only gates the first comparison. Two tests failed because of this. The fix was wrapping the `or` chain: `is_triangle(sides) and (a == c or a == b or b == c)`. Rule going forward: whenever I mix `and` with `or`, parens around the `or` group, even if not strictly needed — for readability.
+  - **Simulation vs formula** — Grains. My solution used a loop and a dict to compute every square's value, then look up the answer. It worked, but the elegant version is just `2 ** (n - 1)` for one square and `2 ** 64 - 1` for the total. I had actually spotted the doubling pattern, but didn't have the math vocabulary (`2 ** n`) to express it directly, so I reached for a loop. Worth knowing for next time: doubling N times = `2 ** N`; halving N times = `value / (2 ** N)`; sum of doubling from 1 = `2 ** N - 1`.
+- **What blocked me:**
+  - Leap year instructions were confusing — the divisibility-by-100/400 exception is genuinely awkward English. Slowed me down even though the logic itself is simple.
+  - Triangle isosceles bug — couldn't see the precedence issue from staring at the code. Only became obvious when I traced `[1, 1, 3]` step by step. Reinforces the lesson: when code looks right but tests fail, substitute the failing input and walk through manually.
+  - Grains — felt stuck because my instinct was to loop, but the exercise hinted that loops/dicts weren't expected yet. Spent time over-engineering with a global dict before solving it. The real gap was a missing piece of math notation, not a thinking problem.
+- **Next session:** Continue with whatever Exercism unlocks next.
 
 ---
 
