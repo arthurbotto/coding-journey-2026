@@ -4,7 +4,30 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
-## 2026-05-23 — Exercism: Leap, Triangle, Grains And some codewars Katas
+Remove all exclamation marks from the end of sentence.
+
+## 2026-05-22 — Codewars: two katas
+
+- **Time:** 1h
+- **What I did:** Two 8 kyu Codewars katas — "Remove all exclamation marks from the end of sentence" and "Enumerable Magic #30 - Split that Array!"
+- **What clicked:**
+  - `rstrip()` is the cleanest way to strip trailing characters — `s.rstrip("!")` removes all trailing `!`s in one call. Worth remembering it also takes a string of characters to strip, not just whitespace.
+
+  - A manual `while` loop also works and is worth understanding even if not idiomatic:
+
+    ```python
+    while s and s[-1] == "!":
+        s = s[:-1]
+    return s
+    ```
+
+    The `s and ...` short-circuit prevents an IndexError on empty strings — neat pattern.
+
+  - On the second kata I reached for `map()` when I needed `filter()`. Mixed them up. The distinction: `map` *transforms* each element (same count out), `filter` *keeps or drops* each element (fewer count out). Filing this — they get confused easily.
+- **What blocked me:** Had to look up string methods. Don't have them in muscle memory yet.
+- **Next session:** Continue Exercism + one Codewars kata.
+
+## 2026-05-21 — Exercism: Leap, Triangle, Grains And some codewars Katas
 
 - **Time:** 4h
 - **What I did:** Three practice exercises — Leap (year-checking logic), Triangle (classify as equilateral/isosceles/scalene with a validity check), and Grains (compute grains on a chessboard square + total).
@@ -20,7 +43,7 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ---
 
-## 2026-05-22 — Exercism: Currency Exchange + Ghost Gobble Arcade Game (Numbers, Bools concepts)
+## 2026-05-20 — Exercism: Currency Exchange + Ghost Gobble Arcade Game (Numbers, Bools concepts)
 
 - **Time:** 2 hours
 - **What I did:** Two concept exercises. Ghost Gobble was straightforward booleans. Currency Exchange was the real work — six functions involving currency conversion, bill denominations, and remainders.
@@ -39,7 +62,7 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ---
 
-## 2026-05-21 — Exercism: Guido's Gorgeous Lasagna (Basics concept)
+## 2026-05-19 — Exercism: Guido's Gorgeous Lasagna (Basics concept)
 
 - **Time:** 30 minutes
 - **What I did:** First Basics concept exercise. Defined a few simple functions and constants for a lasagna recipe.
@@ -49,7 +72,7 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ---
 
-## 2026-05-20 — Exercism Hello World + plan setup
+## 2026-05-19 — Exercism Hello World + plan setup
 
 - **Time:** 1.5 hours
 - **What I did:** Set up Exercism CLI, configured pytest, finished hello_world exercise. Got Anki working after a macOS launcher bug.
