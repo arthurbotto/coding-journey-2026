@@ -4,8 +4,6 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
-Remove all exclamation marks from the end of sentence.
-
 ## 2026-05-22 — Codewars: two katas
 
 - **Time:** 1h
