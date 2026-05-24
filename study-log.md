@@ -4,6 +4,17 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-05-23 — Codewars: four 8 kyu katas
+
+- **Time:** 1h
+- **What I did:** Four 8 kyu katas — "Grasshopper Terminal Game Combat" (subtract damage from health, floor at 0), "ASCII Total" (sum of character ord values in a string), "Square(n) Sum" (sum of squared numbers), and "L1: Bartender, drinks!" (return drink based on customer name).
+- **What clicked:**
+  - `ord()` returns a character's ASCII/Unicode code point. Counterpart is `chr()` which goes the other way. Worth knowing — comes up in string-processing problems.
+  - List comprehensions plus `sum()` are the natural fit for "transform each, then total": `sum(n ** 2 for n in nums)`. A generator expression inside `sum()` is even more memory-efficient than a list comprehension since it doesn't build the intermediate list — same syntax, just no brackets.
+  - `match`/`case` works cleanly for "if input == X return Y" mapping problems. Cleaner than chained `if/elif/else` once there are more than 2-3 cases. Worth remembering as an alternative — it's a Python 3.10+ feature so doesn't appear in older tutorials.
+- **What blocked me:** Nothing significant. Had to look up `ord()` since I didn't remember the function name, but the concept was familiar. Speed is starting to come — four katas in an hour feels like a real shift from last week.
+- **Next session:** Continue Exercism + Codewars katas. Likely ready to mix in 7 kyu within a few days.
+
 ## 2026-05-22 — Codewars: two katas
 
 - **Time:** 1h
