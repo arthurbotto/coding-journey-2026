@@ -4,6 +4,19 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-05-24 — Exercism: Armstrong Numbers, Collatz Conjecture, Meltdown Mitigation
+
+- **Time:** ~3h
+- **What I did:** Three Exercism exercises — Armstrong Numbers (check if digits raised to N equal the number), Collatz Conjecture (iterate until a number reaches 1), and Meltdown Mitigation (conditional logic for reactor states). Also reviewed old notes from Makers bootcamp.
+- **What clicked:**
+  - **Practice exercises ≠ concept exercises.** I'd been holding back from using for-loops, list comprehensions, `sum()` and whatever other methods because they hadn't appeared in Exercism's syllabus yet. That caution made sense on concept exercises (where the point is to compose within the taught feature), but it's the wrong rule on practice exercises — which are open to anything I genuinely know. Community solutions confirmed it: everyone uses whatever Python they have. Going forward: on practice exercises, write idiomatic Python freely.
+  - **Generator expressions vs list comprehensions inside `sum()`.** `sum([x for x in stuff])` builds a full list in memory then throws it away. `sum(x for x in stuff)` — same code minus the brackets — generates and sums one value at a time. Same result, less memory. Applies to `any()`, `all()`, `max()`, `min()` too. Small but very idiomatic.
+  - **Caching repeated computation.** On Armstrong, I computed `str(number)` once and stored it. Looking at community solutions, several recomputed `len(str(number))` inside the loop for every digit. Small inefficiency but a real one. The instinct to compute something once and reuse it is a habit worth keeping.
+  - **`while` loops are the natural fit for "keep going until a condition is met."** Collatz needs to iterate an unknown number of times until reaching 1 — exactly what `while` is for, vs `for` which is for known iteration counts. Worth filing this distinction.
+  - **Conditional logic on Meltdown felt easy.** No real friction — that's the signal that the basics are starting to settle. Compare with last week where the Triangle precedence bug took me a while to spot.
+- **What blocked me:** Nothing significant today. Had to look up how to convert a number to a string and back to int (`str()` and `int()`) — still not at fingertip recall.
+- **Next session:** Continue Exercism (whatever unlocks after Meltdown). Daily kata.
+
 ## 2026-05-23 — Codewars: four 8 kyu katas
 
 - **Time:** 1h
