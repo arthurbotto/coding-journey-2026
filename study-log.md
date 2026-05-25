@@ -4,6 +4,17 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-05-25 — Exercism: Bob, Raindrops + 10 Codewars 8 kyu katas
+
+- **Time:** ~2h
+- **What I did:** Two Exercism exercises (Bob — pattern-match a reply based on input shape; Raindrops — FizzBuzz variant using divisibility by 3/5/7) and ten 8 kyu Codewars katas on fundamentals.
+- **What clicked:**
+  - **`if`/`elif`/`else` stops at the first match — multiple independent `if` statements don't.** On Raindrops I initially used `elif` chains and only one Pling/Plang/Plong got appended even when multiple conditions applied. Switching to separate `if` statements fixed it. Different tools for different jobs: `elif` for mutually exclusive branches, separate `if`s for independent checks that should all run.
+  - **The order of conditionals matters when there's a default case.** My initial bug was that I appended to the result, then unconditionally returned `n_string` at the end — so the result got overridden. Wrapped the return in `if len(result) > 0` to check first. Could also have built `result` as a string with `+=`, but the list + `''.join()` approach is fine and actually slightly more efficient for multiple appends.
+  - **Bob was straightforward** — recognising it's a pattern-match on input shape (question? all caps? both? empty?) makes the structure obvious. The four conditions plus a default catch-all.
+- **What blocked me:** Raindrops — forgot how `if/elif` flow control actually works under the hood. Specifically that `elif` short-circuits once a branch matches. Two-week-old me would have spotted this faster — clearly a rusty spot to drill.
+- **Next session:** Continue Exercism.
+
 ## 2026-05-24 — Exercism: Armstrong Numbers, Collatz Conjecture, Meltdown Mitigation
 
 - **Time:** ~3h
