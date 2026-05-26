@@ -4,6 +4,18 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-05-26 — Exercism: Pig Latin, Little Sister's Vocabulary, Pangram
+
+- **Time:** ~3h
+- **What I did:** Three Exercism exercises. Pig Latin (translate English words/sentences using four rules around vowels and consonants) — the hard one. Little Sister's Vocabulary (four small string-transformation functions for prefixes and suffixes). Pangram (check if a sentence uses every letter of the alphabet).
+- **What clicked:**
+  - **The "find the split index" reframe on Pig Latin.** I was trying to handle the four rules as four separate conditional branches and the code kept getting messier. The reframe — every rule reduces to *where do I split the word*, then `word[i:] + word[:i] + "ay"` — collapsed four branches into one scan with two exceptions (qu and non-leading y). Big mental model shift. Worth filing: when "just one more if statement" keeps making things worse, the *approach* needs to change, not the conditionals.
+  - **Sets eliminate duplicates automatically.** On Pangram, instead of a for-loop appending characters to a list and checking length/uniqueness manually, `set(char for char in sentence.lower() if char.isalpha())` collects only the unique letters in one expression. Then comparing the sorted set to `'abcdefghijklmnopqrstuvwxyz'` is the cleanest check. First version used a for loop with a list — refactored to the set comprehension and the code halved in size.
+  - **Smart use of `join()` on Little Sister's `make_word_groups`.** The instructions explicitly said not to use a for loop. The trick was making the separator itself include the prefix: `f" :: {vocab_words[0]}"`, then `separator.join(vocab_words)`. Once seen, obvious; before seen, not.
+  - **`isalpha()` for catching trailing punctuation.** On `adjective_to_verb`, my first version produced `"black.en"` because the punctuation stayed attached. Checking `verb[-1].isalpha()` and stripping the last char if False fixed it. Worth remembering — string methods like `isalpha`, `isdigit`, `isspace` are simple but underused.
+- **What blocked me:** Pig Latin was a real wall — spent ~2 hours unable to extend my approach to Rules 3 and 4 because I was iterating and mutating a list instead of thinking in terms of slicing. Needed help to see the split-index reframe. The other two went smoothly.
+- **Next session:** Continue Exercism. Push through the remaining practice exercises in the current concept area.
+
 ## 2026-05-25 — Exercism: Bob, Raindrops + 10 Codewars 8 kyu katas
 
 - **Time:** ~2h
