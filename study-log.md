@@ -4,6 +4,21 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-05-27 — Exercism: Isogram + codebar London workshop
+
+- **Time:** ~3h (30min coding + 2.5h workshop)
+- **What I did:** Solved the Isogram exercise on Exercism (check if a word has no repeated letters). Attended the codebar London student workshop at Google's London office in Pancras Square — work-through-tutorials format with volunteer developer coaches, plus a one-to-one career conversation with a Google software engineer.
+- **What clicked:**
+  - **The frequency-counter pattern:** `char_count[char] = char_count.get(char, 0) + 1` builds counts in a dict in one line per item. The `.get(key, default)` method returns the default if the key isn't present yet — much cleaner than checking `if key in dict` first. Worth filing as a real-world pattern; it comes up constantly.
+  - **Choosing the right tool by question shape.** My dict approach worked but was more powerful than needed. The cleaner version uses a set: `len(word) == len(set(word))` after cleaning. Rule of thumb: "any duplicates?" → set. "How many of each?" → dict (or `collections.Counter`). "What's most common?" → `Counter`.
+  - **`collections.Counter` exists** — it's a Python built-in that does exactly what my hand-rolled dict counter does, in one line: `Counter("eleven")` → `{'e': 3, 'l': 1, 'v': 1, 'n': 1}`.
+- **What blocked me:** First instinct with a set was failing. Switched to the dict approach and it worked.
+- **Career conversation at codebar (key takeaways):**
+  - **CV needs heavy rework.** Should be **one page**. Too much redundant content, and tech stacks listed in too many places — the same stack repeated under skills, projects, and elsewhere reads as padding rather than depth. She suggested ruthless trimming.
+  - **Two strategic paths to break into tech:** (1) **Freelance** as a faster route in — get real paid experience, build a track record, then move to permanent roles. (2) **Drill DSA hard** if I want to target bigger companies (the Phase 2 plan already covers this).
+  - Worth deciding which path fits better before applying broadly. Freelance is faster but lower-paid and less structured early; DSA-heavy prep is slower but opens larger doors.
+- **Next session:** Catch up on regular Exercism cadence. Start thinking seriously about the CV rewrite — that's free, high-leverage, and an actionable take from a real working engineer.
+
 ## 2026-05-26 — Exercism: Pig Latin, Little Sister's Vocabulary, Pangram
 
 - **Time:** ~3h
