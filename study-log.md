@@ -4,6 +4,64 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-05-28 — Exercism: ISBN Verifier
+
+- **Time:** ~2h (solving + reviewing community solutions + rewriting from memory)
+- **What I did:** ISBN-10 Verifier. Strip hyphens from input, validate it's 10 characters with digits-only except the last (which can be a digit or 'x'), then apply the ISBN checksum formula `(d₁ * 10 + d₂ * 9 + ... + d₁₀ * 1) mod 11 == 0` to confirm validity.
+- **What clicked:**
+  - **Handle special cases at the conversion step, not as workarounds.** My first solution converted the string to digits, then realised `x` would break the conversion, then patched it by replacing `x` with `'1'` before the conversion AND hardcoding `10 * 1` at the end of the formula to compensate. Two layers of workaround for one problem. The cleaner pattern handles `x → 10` *inside* the list comprehension: `[10 if char == 'x' else int(char) for char in s]`. The special case lives in the moment it matters; the rest of the code stays clean. Same shape applies to anything "convert each item, but one is special" — grades, currency symbols, sentinel values.
+  - **`zip` + `range(10, 0, -1)` for paired iteration with weights.** My first solution wrote out the checksum by hand: `n[0]*10 + n[1]*9 + n[2]*8 + ... + n[9]*1`. Long, error-prone, and duplicated once for the x-case and once for the no-x case. The clean version pairs each digit with its weight and sums the products in one expression: `sum(d * w for d, w in zip(digits, range(10, 0, -1)))`. `range(10, 0, -1)` generates `[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]`. Much shorter, no duplication, easier to change later.
+  - **The validation cascade pattern.** Three sequential `if` checks each handling one rule (length wrong → reject, non-digit before last → reject, last char wrong → reject). Top-to-bottom reading order, each rule isolated. Same "one job per line" idea from Pig Latin's function split.
+  - **`char.isdigit()` is more readable than `char in '0123456789'`.** Both work; the first reads as English.
+
+### First solution (works, but awkward)
+
+```python
+def is_valid(isbn):
+    s = isbn.lower().replace('-', '')
+
+    if not s or len(s) != 10:
+        return False
+    if not all(char in '0123456789' for char in s[:-1]):
+        return False
+    if s[-1] not in '0123456789x':
+        return False
+
+    if s[-1] == 'x':
+        new_s = s.replace('x', '1')   # workaround: pretend x is 1 so int() doesn't break
+        n = [int(digit) for digit in new_s]
+        return (n[0]*10 + n[1]*9 + n[2]*8 + n[3]*7 + n[4]*6 +
+                n[5]*5 + n[6]*4 + n[7]*3 + n[8]*2 + 10*1) % 11 == 0   # then hardcode 10 here
+
+    n = [int(digit) for digit in s]
+    return (n[0]*10 + n[1]*9 + n[2]*8 + n[3]*7 + n[4]*6 +
+            n[5]*5 + n[6]*4 + n[7]*3 + n[8]*2 + n[9]*1) % 11 == 0
+```
+
+Two issues: the `x → 1` replacement plus the hardcoded `10 * 1` is a double-workaround for one problem. And the checksum is written out twice, once per branch.
+
+### Cleaner version (rewritten from memory after reading community solutions)
+
+```python
+def is_valid(isbn):
+    s = isbn.lower().replace('-', '')
+
+    if len(s) != 10:
+        return False
+    if not all(char.isdigit() for char in s[:-1]):
+        return False
+    if not (s[-1].isdigit() or s[-1] == 'x'):
+        return False
+
+    digits = [10 if char == 'x' else int(char) for char in s]
+    return sum(digit * weight for digit, weight in zip(digits, range(10, 0, -1))) % 11 == 0
+```
+
+The `x` is handled once, at the conversion step. The checksum is a single expression. No duplication.
+
+- **What blocked me:** Spent extra time getting the validation logic right (mixed up `and`/`or` in the original condition, same shape of bug as in Triangle). Got there with guidance, then rewrote the cleaner version from memory after looking at community solutions — that felt like a small but real milestone: not just copying a better solution, but understanding the *pattern* behind it well enough to reconstruct it on my own.
+- **Next session:** Continue Exercism. Daily kata.
+
 ## 2026-05-27 — Exercism: Isogram + codebar London workshop
 
 - **Time:** ~3h (30min coding + 2.5h workshop)
