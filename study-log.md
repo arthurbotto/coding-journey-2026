@@ -4,6 +4,19 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-01 — Exercism: Rotational Cipher + CV/LinkedIn rewrite
+
+- **Time:** ~3h (cipher + profile work)
+- **What I did:** Implemented `rotate(text, key)` — a Caesar cipher that shifts each letter by a given key while preserving case, spaces, and punctuation. Separately, did a substantial rewrite of my CV and LinkedIn profile based on the feedback from the Google engineer at codebar.
+- **What clicked:**
+  - **Modulo for wraparound is the core mechanic of cyclic problems.** `(n - base + key) % 26 + base` is the canonical "shift within a cyclic range" formula. The four operations: shift to a 0-indexed range, add the offset, modulo by the cycle size, shift back. Same shape applies to anything cyclic — clock arithmetic, calendar wraparound, ring buffers, any rotation problem.
+  - **Two parallel systems with different bases.** Uppercase letters live at ASCII 65–90; lowercase at 97–122. There's a 6-character gap of non-letter symbols (`[ \ ] ^ _ \``) between them, which is why you can't treat A–z as one continuous alphabet. The fix: detect case per character and use the right base (65 or 97) in the same formula. General pattern: when two systems do the same thing with different reference points, parameterize the offset rather than write two versions of the math.
+  - **Don't destroy information you'll need later.** My first attempt called `.lower()` on the input upfront and then couldn't recover the original case. Cleaning data is often necessary, but doing it too early throws away information later steps need. The fix was to preserve the input and decide per character whether to treat it as upper or lower.
+  - **Read hints, stop before the answer, work it out, then compare.** Coach gave a conceptual nudge ("two alphabets with different bases"). I stopped reading there, wrote the working solution myself, then came back and saw the only difference was a small refactor (using a `base` variable instead of duplicating the math in two branches). That's the rhythm — partial hint, productive struggle, then compare. Much better retention than reading the full answer up front.
+- **What blocked me:** Got tangled trying to handle uppercase by treating A–z as one 58-character alphabet. The ASCII gap between Z and 'a' was the missing piece — once I saw they were two separate 26-character systems with the same math but different bases, it fell into place.
+- **CV / LinkedIn rewrite:** Acted on feedback from the codebar conversation. Trimmed CV to one page, removed redundant tech stack listings, cut padding so every line earns its space. Updated LinkedIn About to match the new positioning. Next step is to actually start sending applications with the new version.
+- **Next session:** Continue Exercism. Daily kata.
+
 ## 2026-05-28 — Exercism: ISBN Verifier
 
 - **Time:** ~2h (solving + reviewing community solutions + rewriting from memory)
