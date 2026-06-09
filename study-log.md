@@ -4,6 +4,15 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-09 — Codewars: ~6 lvl-8 list katas
+
+- **Time:** ~1h
+- **What I did:** Worked the full bar shift until 9pm — limited time at home. Did 5–6 level-8 Codewars katas focused on lists. Light maintenance day to keep the muscle memory going.
+- **What clicked:**
+  - **The sliding-window slice pattern came back automatically.** On the `each_cons` kata (take cascading subsets of size n from a list), wrote `[lst[i:i+n] for i in range(len(lst) - n + 1)]` first try, no fumbling. Same shape as the `is_contained` / sublist helper from yesterday — that pattern is genuinely settling in. The `range(len - n + 1)` boundary that took me ages to internalise on Sublist now feels obvious.
+- **What blocked me:** Nothing. Quick session, easy katas, no friction.
+- **Next session:** Number bases (still pending from yesterday). Continue Exercism. Daily kata.
+
 ## 2026-06-08 — Exercism: Darts, Perfect Numbers, Sublist, Resistor Colors (x2), Little Sister's Essay, Cards Game, Blackjack
 
 - **Time:** ~9h (2h afternoon + 7h evening into early morning)
