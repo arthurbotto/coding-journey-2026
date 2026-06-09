@@ -4,6 +4,32 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-08 — Exercism: Darts, Perfect Numbers, Sublist, Resistor Colors (x2), Little Sister's Essay, Cards Game, Blackjack
+
+- **Time:** ~9h (2h afternoon + 7h evening into early morning)
+- **What I did:** Eight Exercism exercises across the day:
+  - **Darts** — score a dart based on where it landed using Cartesian coordinates and circle radius.
+  - **Perfect Numbers** — classify a number as perfect/abundant/deficient based on its aliquot sum (sum of factors excluding itself).
+  - **Sublist** — given two lists, determine if one is equal to, a sublist of, a superlist of, or unequal to the other.
+  - **Resistor Color** + **Resistor Color Duo** — look up resistor band values; combine two bands into a two-digit number.
+  - **Little Sister's Essay** — string manipulation: title-case, sentence-ending check, whitespace trimming, word replacement.
+  - **Cards Game** (7 functions) — list manipulation: get rounds, concatenate, contains, averages of various kinds, conditional doubling.
+  - **Blackjack** (6 functions) — card value calculation, blackjack-hand detection, split/double-down rules.
+- **What clicked:**
+  - **Pythagorean theorem applied to coordinates.** Distance from origin to point `(x, y)` is `√(x² + y²)`. Same formula whether it's a dart on a target, a player in a game, or two cities on a map. The math I "didn't have" was just school geometry applied to a real situation — file it as a permanent tool, not a one-off.
+  - **Order of `if` checks matters when ranges nest.** On Darts, checking `distance <= 10` first would catch every dart inside the target as 1 point, including bullseyes — because the smaller circles are inside the bigger one. Always check the narrowest condition first when ranges nest inside each other.
+  - **Early return vs `elif`/`else`.** When every branch returns, both styles produce identical behaviour. `if/return/if/return/return` is the "early return" pattern — slightly less nesting, common in real code. Worth recognising both shapes.
+  - **The "find factors" loop.** `[i for i in range(1, n) if n % i == 0]` collects every divisor of `n` below `n` itself. The `% == 0` test ("divides evenly") is the core mechanism. Comes up anywhere you need to enumerate factors.
+  - **Sublist required a new mental model.** "Contiguous sub-sequence" means the values appear *adjacent* in the bigger list, in order — like searching for a word inside a sentence. The implementation: a helper function that slides the smaller list across the bigger one, checking each position with slicing. The argument order of `is_sublist(small, big)` ("is small a sublist of big?") reads more naturally than `contains(big, small)` ("does big contain small?") — both work, but choosing names that match the question makes the call site self-documenting.
+  - **Compute once, use many.** On Perfect Numbers I had `sum(r)` called twice. Storing it in a variable makes the code clearer AND avoids walking the list twice. Cheap performance win, cleaner reading.
+  - **String slicing tricks.** `[::-1]` reverses, `[::-2]` reverses with step 2, `[:-1]` is everything-but-last. The third argument of a slice is the step, and it can be negative. Will reach for this often.
+  - **The "compute one thing, then use it" shape.** On Darts and Perfect Numbers, the pattern is: do a single calculation (distance, factor sum), then a simple decision tree on the result. Recognising this shape early speeds things up — instead of trying to do everything in one expression, separate "calculate the key value" from "decide based on the value."
+- **What blocked me:**
+  - **Forgot the distance formula on Darts.** Two coordinates inside a 10-unit grid doesn't mean inside a 10-radius circle — the diagonal distance is what matters. Geometry rust. Refreshed and noted that this comes up everywhere in programming.
+  - **Sublist was the hardest of the day.** Took multiple passes to internalise three things at once: what "contiguous sub-sequence" means, how the helper function's loop iterates over positions, and which argument-order convention to follow. Felt confusing partly because the helper parameter names (`big`/`small`) weren't enforced — when the function got called with the arguments effectively flipped, the math returned False naturally (because of an empty `range(-1)`).
+  - **Number bases (next exercise) — paused.** Started reading the positional notation explainer and decided to leave it for tomorrow.
+- **Next session:** Number bases (the paused one). Then continue Exercism cadence.
+
 ## 2026-06-01 — Exercism: Rotational Cipher + CV/LinkedIn rewrite
 
 - **Time:** ~3h (cipher + profile work)
