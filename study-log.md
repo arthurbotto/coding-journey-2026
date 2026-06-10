@@ -4,6 +4,23 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-10 — Exercism: All Your Base + List Methods
+
+- **Time:** ~2h (mostly fighting All Your Base)
+- **What I did:** Two Exercism exercises. **All Your Base** — convert a number from one base to another, taking digits in input_base and returning digits in output_base. **List Methods** — practice exercise drilling common list operations.
+- **What clicked:**
+  - **"Convert a number to base X" is two operations, not one.** Direction 1: given digits in some base, compute the underlying value (multiplication formula — sum of digit × base^position). Direction 2: given a value, produce digits in some base (repeated divmod, collect remainders, reverse at end). These are *inverse* operations — easy to confuse them when both involve the same base and similar-looking math. The function pivots through a plain integer in the middle, which is the only thing both bases can agree on.
+  - **"X in base Y" is ambiguous in English.** It can mean either "the digit-pattern X interpreted in base Y" (direction 1) or "the value X rewritten using base Y notation" (direction 2). Same words, opposite operations. The exercise wanted the second meaning; my instinct went to the first. Worth noting because the ambiguity in plain language is real, not a comprehension failure.
+  - **Integer division vs true division.** `2 / 16 = 0.125` (true division, gives float). `2 // 16 = 0` (floor division, gives the quotient as a whole number). `2 % 16 = 2` (remainder). The base-conversion algorithm uses floor division and remainder, not true division. `divmod(a, b)` returns both at once as a tuple `(quotient, remainder)`. The `divmod` function is the natural fit for this kind of algorithm.
+  - **Multiple ways to unpack sequences.** `a, b = some_tuple`, `a, _, c = some_tuple` (underscore to ignore values), `first, *rest = some_list` (star to absorb the rest), `for i, n in enumerate(...)` to get both index and value. All work on any sequence — tuples, lists, strings, divmod output.
+  - **`return` is silent at the call site unless you wrap with `print()`.** Calling `rebase(...)` alone doesn't display anything in a script; the return value evaporates if nothing catches it. Either `print(rebase(...))` or assign to a variable. `print` inside a function is a side effect; `return` is for handing the value to the caller. They're independent and different things.
+  - **`raise ValueError("msg")` for invalid input.** Used to signal bad input — stops execution immediately and the caller can `try/except` to catch it. Tests use `assertRaises(ValueError)` to verify the function raises when expected. My function needed three validation checks at the top: input_base >= 2, output_base >= 2, and every digit must satisfy `0 <= d < input_base` (using `any()` over the digits list).
+- **What blocked me:**
+  - **The whole exercise was a wall.** Conceptually got tangled between the two directions of conversion for a long time. Even after understanding the concept, made multiple bugs implementing it: used `divmod(num, ...)` instead of `divmod(q, ...)` causing an infinite loop (my laptop cried, froze for a while lmao), missed the empty-digits-list edge case. Each bug was small in isolation but stacking them while still shaky on the concept made debugging slow.
+  - **Binary still feels shaky.** I got the algorithm working but couldn't have explained the formula from scratch at the start of the day. Worth more reps with manual conversions on paper to make it stick. Probably worth circling back with deliberate practice on number bases as a topic, separate from the Exercism cadence.
+- **Reflection on plan progress:** Haven't started the Week 1 mini-project (CSV-to-JSON converter) yet, two weeks in. Worth being honest about that rather than glossing over it — the Exercism + Codewars rhythm has been building real fluency, but the project portion of Phase 1 is where I'd build muscle for *applying* the patterns to multi-file, real-world code rather than single-function exercises. Should make space for it soon.
+- **Next session:** Either start the CSV-to-JSON mini-project (the big rock that's been pushed back), or continue Exercism cadence if time is tight.
+
 ## 2026-06-09 — Codewars: ~6 lvl-8 list katas
 
 - **Time:** ~1h
