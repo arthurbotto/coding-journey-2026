@@ -4,6 +4,22 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-15 — CSV-to-JSON Mini-Project (Phase 1): converter + first hand-written pytest tests
+
+- **Time:** ~3h
+- **What I did:** Finally started the Week 1 mini-project that's been pushed back for weeks. Built the core of a CSV-to-JSON converter: a `converter(file)` function that reads a CSV with `csv.DictReader` and returns a JSON string via `json.dumps(..., indent=2)`. Structured it as a thin `main()` calling the worker function, with the `if __name__ == "__main__"` guard. Added a type hint and then widened it. Wrote three pytest tests for it, for now, happy path, missing file, and header-only edge case Did NOT reach argparse yet; that's tomorrow.
+- **What clicked:**
+  - **What a CLI actually is.** A command-line tool is the *simplest* kind of program, not a desktop or web app, no GUI, the terminal is the interface. I already use these daily (`uv`, `git`, `ruff`). I'd been intimidated by the word and assumed the project meant building something with a UI. It doesn't. The finished tool is just `uv run main.py somefile.csv`.
+  - **Separate the logic from the I/O (worker + thin `main`).** Same shape as the salary calculator's "bands as data, logic as function": `converter` does the transform, `main` just wires it up (read → call → print). Keeping `converter` free of printing/CLI concerns is what makes it testable in isolation.
+  - **Type hints are like TypeScript — not comments, not runtime rules.** Syntax is `file: str`. The interpreter *ignores* hints at runtime; a separate checker (mypy/ty) reads them, exactly like `tsc` checks TS and then strips it. Checked-ahead-of-time documentation, not enforcement.
+  - **Make the hint match reality, not the other way round.** `tmp_path` hands tests a `Path`, but I'd annotated `converter(file: str)`. The test passed anyway (interpreter ignores hints), but the types were inconsistent. The fix wasn't to wrap calls in `str(...)` — it was to widen the hint to `str | Path`, since a file-opening function *should* accept both. The signature should tell the truth about what it takes.
+  - **Test the meaning, not the formatting.** First version of the happy-path test asserted against the exact pretty-printed JSON string — brittle: changing `indent=2` to `4` breaks it even though the conversion is still correct. Better: `json.loads(result)` to parse back to Python data, then assert on the *data*. Whitespace becomes irrelevant; the test fails only when the conversion is truly wrong. (`loads` = load string → Python; the mirror of `dumps`.)
+  - **`tmp_path` for self-contained tests.** pytest built-in fixture: name a test parameter `tmp_path` and pytest injects a fresh temp folder. Build a file with `tmp_path / "data.csv"` then `.write_text(...)`. The test creates its own input instead of depending on a committed `sample.csv` that could change underneath it. Input and expected output sit together.
+  - **raise vs try/except vs pytest.raises are three different jobs, not competing options.** `raise` signals a problem; `try/except` handles one where you can do something useful; `pytest.raises` is a *test* tool asserting the code errors when it should. raise + except are two halves of one conversation; pytest.raises lives only in tests. For the missing file: `open()` already raises `FileNotFoundError`, so `converter` just lets it propagate (a utility function shouldn't decide whether to print/quit/404 — the caller decides), and the test uses `with pytest.raises(FileNotFoundError):` to verify it.
+- **What blocked me:**
+  - **Spent a long time just not understanding what the project *was*** — see the CLI point. The blocker was conceptual, not technical.
+- **Next session:** Build the argparse layer (step 4) — read the filename and an optional `-o` output flag from the command line so the tool runs on any file without editing code. Then add the user-facing `try/except FileNotFoundError` at that CLI layer for a clean error message. After that the mini-project is complete; back to Exercism cadence / Week 2.
+
 ## 2026-06-11 — UK Net Salary Calculator (side project)
 
 - **Time:** ~3h
