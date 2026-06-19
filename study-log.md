@@ -4,6 +4,19 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-19 — Exercism: Resistor Color Trio
+
+- **Time:** ~1h30
+- **What I did:** Resistor Color Trio on Exercism, decode three resistor colour bands into a resistance label like "33 ohms" or "33 kiloohms". My approach: look up each colour's index in a colours list, build the two-digit value from the first two bands, multiply by `10 ** (third band)` for the trailing zeros, then format with the right metric prefix.
+- **What clicked:**
+  - **The decode itself.** First two colours → a two-digit number; third colour → a power of ten (the number of zeros). Got this part on my own.
+  - **The metric prefix depends on clean divisibility, not size.** You only step up to kilo/mega/giga when the value divides *evenly* by 1000 — 33000 → "33 kiloohms", but 3300 stays "3300 ohms". I'd assumed it was purely about magnitude (anything ≥ 1000 → kilo), which is wrong.
+  - **`//` truncates.** `3300 // 1000` is `3`, silently dropping the 300. Integer division is only safe once you've checked the value divides cleanly (`% 1000 == 0`), then it's exact.
+  - **Passing all tests ≠ correct.** Every test value was a clean multiple of its prefix unit, so my divisibility bug never showed. It only surfaced by tracing an input the suite skips, the spec's own orange-orange-red example, which my code returned as "3 kiloohms" instead of "3300 ohms".
+- **What blocked me:** The metric-prefix formatting. First version chose the prefix by magnitude and used `//`, which gave wrong answers for non-clean multiples, and passed every test, so the bug was invisible until I traced a case the tests don't cover. Fix: check `% 1000 == 0` for each prefix, largest first, with plain ohms as the fallback. The maths was the demanding part, exponents, zeros-as-powers-of-ten, and the divisibility rule took the most thinking.
+- **Reflection:** Took ~1h30, a maths-heavy exercise, exponents and the divisibility rule took the most thought. Got the core decode on my own; the single piece I missed was the prefix formatting, which clicked once I saw it hinges on clean divisibility by 1000 rather than size. Good reminder that green tests don't prove correctness, the bug only appeared by tracing an input the suite leaves out.
+- **Next session:** Back to Exercism cadence.
+
 ## 2026-06-18 — CSV-to-JSON Mini-Project (Phase 1): argparse CLI + CLI tests — complete
 
 - **Time:** ~2h
