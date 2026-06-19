@@ -4,6 +4,23 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-18 — CSV-to-JSON Mini-Project (Phase 1): argparse CLI + CLI tests — complete
+
+- **Time:** ~2h
+- **What I did:** Finished the mini-project. Added the argparse CLI layer (step 4): a required positional `input` argument and an optional `-o/--output` flag, so the tool prints JSON to the terminal by default or writes it to a file with `-o`. Refactored `main` to take `argv=None` so the CLI is testable. Added three CLI tests, writes-to-file, prints-to-stdout, and errors-on-no-args, bringing the suite to six, all green. It's a complete, typed CSV→JSON CLI converter now.
+- **What clicked:**
+  - **argparse is small, and positional vs optional is the core distinction.** A bare name (`input`) is a required positional; a dash-prefixed name (`-o`) is optional. `-o` takes a *value* (the filename), so it uses the default "store" behaviour with `default=None`. `action="store_true"` is for *valueless* on/off flags like `--verbose`, the wrong tool for `-o`. The CLI was the part I'd built up as big; it's the smallest piece of the project.
+  - **CLI code has to live inside `main()`, under the guard, not at module level.** My first version had `parse_args()` at the top of the file. Module-level code runs on *import*, so when a test did `from main import converter`, argparse fired during import (reading pytest's argv), errored, and took the tests down with it. The `if __name__ == "__main__"` guard exists precisely to stop import-time execution; moving the argparse into `main()` put it back under that protection. Same guard lesson as before, now with a concrete consequence.
+  - **`write_text` creates the file; `touch` doesn't take a filename.** I'd written `Path(".").touch(output)` assuming I had to create the file before writing. Traced it: `touch`'s first argument is a file *mode*, not a filename, and on an existing path it just bumps the timestamp and returns, the filename string was silently ignored. `write_text` had been creating the file all along (it creates if missing). Deleted the `touch` line.
+  - **A Path is just a name; relative paths resolve from the current working directory.** `Path("output.json")` doesn't "look" anywhere by itself, the OS resolves it when you *act* (`write_text`, `open`). No leading `/` means relative, measured from wherever the terminal is when the program runs. So no need for `Path(".")`, the cwd is automatic. (Same cwd idea that made the test's CSV unfindable a couple of sessions back.)
+  - **Testing CLI behaviour = hand argparse the arg list directly.** The command line is just a list of strings: `sample.csv -o out.json` is `["sample.csv", "-o", "out.json"]`. `parse_args()` reads that from `sys.argv` by default but will take a list too. Refactoring `main(argv=None)` + `parse_args(argv)` lets tests call `main([...])` with no real shell, while `None` falls back to real argv so the CLI is unaffected.
+  - **`capsys` for testing printed output.** Built-in pytest fixture, inject-by-name like `tmp_path`; `capsys.readouterr().out` is whatever the code printed, ready to assert on. Used it for the default print branch. (Detail: `print` adds a trailing `\n`, but `json.loads` ignores surrounding whitespace, so it parses cleanly.) The suite is layered now, `converter` tests for the logic, `main` tests for the CLI wiring (file output, stdout, bad-args `SystemExit`).
+- **What blocked me:**
+  - The `touch` line, ran without any error but did nothing useful; only caught by tracing it rather than assuming it worked.
+  - Briefly tangled on what the finished tool even does: clarified that you type a *command naming files*, not data, `sample.csv` is read, a new *JSON* file is written, the CSV stays untouched.
+- **Reflection:** The argparse layer felt easy, smaller than I expected. The trickier parts weren't the CLI itself but the concepts around it: where CLI code has to live (inside `main`, under the guard), how pathlib resolves relative paths, and how to feed argparse a fake command line for tests. Satisfied with where it's at and leaving it here. Mini-project complete: typed CLI converter that prints or writes to a file, six tests across logic and CLI.
+- **Next session:** Mini-project done, back to Exercism cadence and on toward Week 2 (data-structures fluency) per the plan.
+
 ## 2026-06-15 — CSV-to-JSON Mini-Project (Phase 1): converter + first hand-written pytest tests
 
 - **Time:** ~3h
