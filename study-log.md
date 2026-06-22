@@ -4,6 +4,17 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-21 — Exercism: Resistor Color Expert + Making the Grade
+
+- **Time:** ~3h (most of it on Resistor Color Expert)
+- **What I did:** Finished Resistor Color Expert, solved correctly on the first try. Then completed Making the Grade, a loop based exercise covering rounding scores to ints, counting non passing students, filtering scores above a threshold, generating evenly spaced letter grade thresholds, matching ranked names to scores, and finding a perfect score in a list of student records.
+- **What clicked:**
+  - **Trio and Expert have different prefix rules, even as sibling exercises.** Trio only promotes to kilo/mega/giga when the value divides evenly by 1000 (3300 stays "3300 ohms"). Expert allows fractional prefixes (7300 becomes "7.3 kiloohms"). Knew from the instructions this exercise needed different handling from Trio, and built it that way from the start.
+  - **`correct_division`'s int vs float split does real work.** Clean multiples of 1000 return as `int` (so "2 kiloohms", not "2.0 kiloohms"); non clean multiples return as `float` ("6.89 kiloohms"). Both output shapes are required by Expert's tests, so the split isn't defensive code, it's load bearing.
+- **What blocked me:** Working out the math and logic for the fractional prefix rule took a while, but got there.
+- **Reflection:** Resistor Color Expert took most of the time; Making the Grade was a straightforward loop exercise by comparison.
+- **Next session:** Continue Exercism cadence.
+
 ## 2026-06-19 — Exercism: Resistor Color Trio
 
 - **Time:** ~1h30
