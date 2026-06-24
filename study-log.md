@@ -4,6 +4,25 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-06-24 — Exercism: Tisbury Treasure (continued), Matching Brackets, Diamond Kata
+
+- **Time:** I didnt track to be fair. This was over two days.
+- **What I did:** Yesterday, continued Tisbury Treasure, fixed a bug in `convert_coordinate` and built `clean_up`, then solved Matching Brackets. Today, solved the Diamond Kata.
+- **What clicked:**
+  - **A test calling a function once per item can look, from a partial view of the test file, like it's calling the function on the whole list at once.** On `convert_coordinate`, printed the function's output, noticed it exactly matched the test's full expected list, and traced backward from that to realize I'd been calling the function on the entire `input_data` list rather than one coordinate. The test was actually looping and calling the function per item via subtests, which wasn't visible in the snippet I'd been looking at.
+  - **Indexing one position gives a bare value; slicing a range gives back the same type (a tuple, here).** `clean_up` failed trying to add `data[0]` (a string) to `data[2:]` (a tuple), string plus tuple isn't valid. Fixed by slicing instead of indexing the first element, `data[:1]`, so both sides were tuples and could be concatenated.
+  - **`str()` versus `repr()`, and why printed output looks different from a test's expected string.** Used `str()` to turn each cleaned tuple into a string before joining lines with `\n`. Separately, `print()` shows the *effect* of a newline character (an actual line break), while a test failure message or the REPL shows the *repr*, with `\n` spelled out literally. Same string, two different displays.
+  - **A stack (list, `.append()`/`.pop()`) and a dict (fixed lookup of closer to opener) do two different jobs in Matching Brackets.** The list tracks what's currently open and unclosed, in order; the dict is a fixed reference table for "what does this closer need to match." Needed both together.
+  - **Module level variables persist across multiple calls in the same process, which only shows up under pytest, not when running the script directly.** `stack` and `pairs` were defined outside the function. Running the script directly called the function once, so it looked correct. Running pytest called it many times in the same process, sharing the same `stack` between calls, so leftover state from one test call corrupted the next. Every failing test was one expecting `True`, the fingerprint of leftover junk dragging down otherwise valid input. Fixed by moving `stack` inside the function so each call starts fresh.
+  - **Used the debugger properly for the first time on this kind of problem.** Breakpoints only pause at the exact line they sit on, moving one inside the loop (rather than on the first and last lines of the file) let me step through character by character and watch `stack` grow and shrink in the variables panel.
+  - **Diamond Kata, breaking the problem into a row formula plus a mirroring step.** Needed the row spacing relationship explained (leading and trailing spaces for row `i` equal `n - i`; spaces between the two letters equal `2i - 1`, where `n` is the widest letter's distance from A), but worked out the implementation myself, including handling the single letter row separately, computing `n` from `ord(letter)`, and building the full diamond as the top half plus the top half reversed with the last row dropped so the middle row isn't duplicated. Verified it by hand tracing against the C and D examples in the instructions before trusting it.
+  - **`"\n".join(list)` versus printing a list directly.** Printing the raw list of rows shows Python's repr, quotes and commas, all on one line, since there are no actual newline characters between list elements. Joining the rows with `"\n"` first produces the real multi line diamond shape.
+- **What blocked me:**
+  - Misreading what `convert_coordinate` and the test expected as input, until tracing the printed output against the test's expected list revealed the mismatch.
+  - The Diamond Kata overall, this is a famously difficult exercise even for experienced developers; getting from the problem statement to the row formula didn't happen on my own, needed it explained, then did the implementation and verification myself.
+- **Reflection:** Matching Brackets surfaced a real bug category, state living somewhere it shouldn't (module level instead of inside the function) producing different results depending on how many times the code runs, worth remembering outside this exercise. Diamond Kata took over an hour and needed real help on the core insight; being honest that the formula wasn't self derived, but the translation into working, verified code was.
+- **Next session:** Continue Exercism cadence.
+
 ## 2026-06-21 — Exercism: Resistor Color Expert + Making the Grade
 
 - **Time:** ~3h (most of it on Resistor Color Expert)
