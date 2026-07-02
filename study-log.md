@@ -4,6 +4,25 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-07-02 — Exercism: RNA Transcription, Atbash Cipher, Wordy
+
+- **Time:** (not tracked across the sessions, did it across 3 days.)
+- **What I did:** Three exercises since the last log entry. RNA Transcription, a straightforward one-liner dict substitution. Atbash Cipher, a substitution cipher with groups-of-5 encoding and decoding. Wordy, a word problem parser evaluating math expressions left to right, with multiple error cases to handle.
+- **What clicked:**
+  - **RNA Transcription as a clean one-liner.** Fixed substitution dict plus a generator expression inside `join`, no loop needed. Same pattern as Atbash but simpler since there's no grouping or error handling involved.
+  - **Atbash Cipher built on the Rotational Cipher insight.** The groups-of-5 encoding (`clean[i:i+5] for i in range(0, len(clean), 5)`) came directly from looking back at Rotational Cipher. `str.translate` with `str.maketrans` handled the substitution in one call for both encode and decode, cleaner than a dict lookup loop. `split()` with no arguments handles any whitespace in decode, including the multiple-spaces test case, since it discards empty strings automatically.
+  - **Mapping operation words to functions via a dict.** `'plus': lambda a, b: a + b` etc. The operation word becomes the dict key, the function is the value, no `if/elif` chain for four operations. `operations[operator](result, number)` applies whichever one matched. Same "data, not branching" pattern as the tax bands.
+  - **While loops for consuming a list as you go.** `list.pop(0)` removes and returns the first item, shrinking the list each pass until it's empty. Used to consume the word list left to right: pop the first number as the initial result, then repeatedly pop an operator and a number, apply the operation, update the result.
+  - **`'multiplied'` and `'divided'` are two-word operations.** After popping `'multiplied'` or `'divided'`, pop and discard the next word (`'by'`) before popping the number. `'plus'` and `'minus'` go straight to the number.
+  - **Two distinct `ValueError` messages, each triggered by different bad input shapes.** `"unknown operation"` only for words that aren't numbers and aren't in the operations dict (genuinely unsupported operations like `'cubed'`). `"syntax error"` for everything else: empty question, number where an operation was expected, operation where a number was expected, missing operand at the end. Getting the distinction right required running the debugger to watch exactly which line each failing test was hitting and why.
+  - **`lstrip('-').isdigit()` to detect a number token.** Plain `.isdigit()` returns `False` for `'-2'` since the minus sign isn't a digit. Stripping the leading minus first makes it work for negative numbers too, without accidentally treating operation words as numbers.
+  - **`try/except ValueError` around `int()` calls to catch bad syntax.** When `int()` receives a word like `'plus'` instead of a number string, it raises a `ValueError` with Python's own message. Wrapping those calls in `try/except` and re-raising as `ValueError("syntax error")` converts Python's internal error into the message the test expects.
+  - **Using the debugger actively to trace which line each test failure hit.** Set breakpoints on each `raise` and stepped through the failing cases. Made the error flow concrete instead of trying to reason about it abstractly, and made the distinction between `"unknown operation"` and `"syntax error"` much clearer.
+- **What blocked me:**
+  - On Wordy, the error handling. The main calculation logic came together without too much trouble; the eight failing tests were all in the error cases. The debugger was what finally made them click, watching exactly which line each bad input reached and what it crashed on.
+- **Reflection:** RNA Transcription and Atbash Cipher both came independently. Wordy was a different story: started out quite lost, initially trying to extract numbers separately from operations before understanding that keeping them together as a word list was the right approach. The overall structure (cleaning the string, `pop(0)` loop, dict of lambdas, handling two-word operations) came from heavy hinting throughout. The error handling section, which produced 8 failures, also needed help to sort out. Used the debugger once on the "plus plus" case to understand which line was being hit, which helped that specific case click. Honestly more of a "followed along and understood" session than an independent one.
+- **Next session:** Continue Exercism cadence.
+
 ## 2026-06-25 — Exercism: Flower Field
 
 - **Time:** 6h+, on and off
