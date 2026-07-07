@@ -4,6 +4,18 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-07-06 — Exercism: Secret Handshake, Anagram
+
+- **Time:** 3h
+- **What I did:** Secret Handshake (convert a 5-bit binary string into a list of actions, with the 5th bit optionally reversing the result). Anagram (find which candidate words are anagrams of a target word, case-insensitively, excluding the word itself).
+- **What clicked:**
+  - **Secret Handshake: reversing the string to align indices with actions.** Struggled to start, but once pointed back at the Resistor Color exercise (where a list position *is* the value), it clicked straight away. Reversing the binary string first means index 0 is the rightmost bit (wink), index 1 is double blink, and so on. Then `enumerate` over the first 4 characters, append the action at that index if the bit is `'1'`. The reverse flag is handled separately: check if the string has 5 characters and `binary_str[0] == '1'`, only then reverse the result. The length check is necessary, not redundant, since a 4-character string starting with `'1'` (like `"1001"` for 9) would incorrectly trigger a reverse without it.
+  - **Bitwise AND as a bit-position check.** Looked at other people's solutions using `num & 0b00001` etc. `&` isn't equality, it operates position by position: a `1` only survives where both numbers have a `1` at that position. So `num & 0b00010` asks "does `num` have a `1` at position 1?" and returns non-zero (truthy) if yes, zero if no. `1 << i` produces a number with exactly one `1` bit at position `i`, making it a clean mask for any position. Equivalent logic to checking the string character directly, just expressed through integer bit operations after `int(code, 2)` converts the binary string to an integer.
+  - **Anagram: don't mutate what you still need.** First version lowercased candidates early into a separate list and appended from that, losing the original casing. Took a few minutes to spot: the comparison needs lowercased versions, but the thing being appended to the result has to be the original. Fixed by only lowercasing inside the `if` condition and appending `item` (the original) directly.
+  - **`sorted(word.lower())` as the anagram check.** Two words are anagrams if and only if their sorted letter lists are equal. Lowercase both before sorting so case doesn't affect the comparison. Works for Greek letters too since `.lower()` handles Unicode, no special casing needed.
+- **What blocked me:** Secret Handshake, couldn't see how to start until the Resistor Color connection was pointed out, after that it came quickly. Anagram was fully independent, the only stumble was the early-lowercasing trap, caught and fixed in a few minutes.
+- **Next session:** Continue Exercism cadence.
+
 ## 2026-07-02 — Exercism: RNA Transcription, Atbash Cipher, Wordy
 
 - **Time:** (not tracked across the sessions, did it across 3 days.)
