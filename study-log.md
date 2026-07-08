@@ -4,6 +4,18 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-07-07 — Exercism: Binary Search + AWS/Hetzner migration work
+
+- **Time:** ~1h (Binary Search) + most of the afternoon (server work)
+- **What I did:** Spent most of the day working on the supportersmenu.com migration away from AWS, which is losing free tier credits mid-July. Backed up the production database and assets. On the Python side, one exercise: Binary Search, implementing the algorithm from scratch with a while loop.
+- **What clicked:**
+  - **Binary search is O(log n), not O(n).** Could have used `.index()` and passed every test, but that scans the whole list. Binary search halves the remaining candidates every step, so a million-item list needs roughly 20 steps instead of up to a million. The difference is invisible at small scale, the whole point at large scale.
+  - **The algorithm itself:** `left` and `right` as boundaries, `mid = (left + right) // 2` each iteration, compare `array[mid]` to the target, move `left` up or `right` down depending on the result, raise `ValueError` when `left > right` (no candidates left). Integer division handles even-length lists, always rounds down, always terminates.
+  - **Debug prints at module level crash pytest during collection.** Left a `print(find(...))` at the bottom of the file; pytest imports the module to collect tests, the print fires immediately, raises `ValueError` during import, and pytest aborts before running anything. Same module-level-code issue as the argparse bug in CSV-to-JSON. Removing the print fixed it.
+  - **"Binary" in binary search has nothing to do with binary numbers.** Just means "split in two each time." Two completely unrelated uses of the word.
+- **What blocked me:** Felt stuck starting from scratch, read an article explaining the algorithm, then closed it and wrote the implementation from memory without copying. Worth noting since this felt like "giving up" at the time, but reading how a named algorithm works before implementing it is just how you learn algorithms, not cheating.
+- **Next session:** Continue Exercism cadence. Continue supportersmenu.com migration to Hetzner.
+
 ## 2026-07-06 — Exercism: Secret Handshake, Anagram
 
 - **Time:** 3h
