@@ -4,6 +4,29 @@ Career changer rebuilding fundamentals and working toward a junior developer rol
 
 ## Started May 2026
 
+## 2026-07-13 — Side project: CLI Tic-Tac-Toe (Python rewrite from C#)
+
+- **Time:** (unknown)
+- **What I did:** Took a break from Exercism. Rewrote my old C# CLI Tic-Tac-Toe game in Python, first by translating it directly from the C# code, then rewrote it from memory without looking at either version.
+- **What clicked:**
+  - **Translating logic across languages.** The C# version used the same flat list of 9 cells, same check_victory pattern, same player-flip toggle. Mapping those concepts to Python felt natural, the logic doesn't change, just the syntax.
+  - **The board initialised with unique values (`"1"` through `"9"`) makes the win check simpler.** `check_victory` just checks if three cells are equal, not what they contain, because three equal cells can only happen after real moves. A subtle assumption baked into the design that would break with a different initial board value.
+  - **The winning player detection via the already-flipped `is_player_1` flag.** When `check_victory` fires and the loop exits, `is_player_1` has already toggled to the next player, so the printed winner is the opposite of whoever the flag currently points to. Indirect but correct.
+- **What blocked me:** Nothing significant.
+- **Next session:** Rewrite CLI Hangman in Python.
+
+## 2026-07-14 — Side project: CLI Hangman (Python, class-based)
+
+- **Time:** (unknown)
+- **What I did:** Rewrote a simple CLI Hangman game in Python, starting from a single-file version, then used Claude Code in the terminal to explore improvements. The suggested refactor used a class, which looked complex at first. Spent the day reading through it, then rewrote the full class-based version from memory until it worked. Pushed to GitHub with a README.
+- **What clicked:**
+  - **`@property` for read-only computed attributes.** Never used it before. Instead of calling `game.is_won()` as a method, `@property` lets you write `game.is_won` as if it were a plain attribute, but the value is computed fresh each time it's accessed. Used it for `is_won`, `is_lost`, `display_word`, `lives_remaining`, and `tried_letters`. The right tool when something is a computed fact about the object's state, not something you store directly.
+  - **Separating state/logic from input/output across files.** `HangmanGame` in `game.py` never prints anything; `main.py` never touches the game state directly. The class only returns values and updates internal state, all printing happens in `main.py`. Cleaner than having everything in one file, and the same separation-of-concerns idea as the CSV-to-JSON project.
+  - **Multi-word phrase support via `c != " "` in `is_won`.** `all(c in self._guessed for c in self.word if c != " ")` skips spaces when checking if every letter has been guessed, so phrases with spaces work without the player having to guess a space.
+  - **`set` for tried and guessed letters.** Lookup is O(1) and duplicates are automatically ignored. `if letter in self._tried` is instant regardless of how many letters have been tried.
+- **What blocked me:** The class structure looked intimidating at first read. Didn't try to understand it all at once, read through it slowly across the day, then wrote it from memory. That process was what made it click.
+- **Next session:** Return to Exercism cadence.
+
 ## 2026-07-07 — Exercism: Binary Search + AWS/Hetzner migration work
 
 - **Time:** ~1h (Binary Search) + most of the afternoon (server work)
